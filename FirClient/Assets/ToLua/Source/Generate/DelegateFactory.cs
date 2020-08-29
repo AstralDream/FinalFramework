@@ -69,6 +69,7 @@ public class DelegateFactory
 		dict.Add(typeof(System.Action<SuperScrollView.LoopListView2,SuperScrollView.LoopListViewItem2>), factory.System_Action_SuperScrollView_LoopListView2_SuperScrollView_LoopListViewItem2);
 		dict.Add(typeof(System.Func<SuperScrollView.LoopListView2,int,SuperScrollView.LoopListViewItem2>), factory.System_Func_SuperScrollView_LoopListView2_int_SuperScrollView_LoopListViewItem2);
 		dict.Add(typeof(System.Action<SuperScrollView.LoopListViewItem2,object>), factory.System_Action_SuperScrollView_LoopListViewItem2_object);
+		dict.Add(typeof(TMPro.TMP_InputField.OnValidateInput), factory.TMPro_TMP_InputField_OnValidateInput);
 
 		DelegateTraits<System.Action>.Init(factory.System_Action);
 		DelegateTraits<UnityEngine.Events.UnityAction>.Init(factory.UnityEngine_Events_UnityAction);
@@ -122,6 +123,7 @@ public class DelegateFactory
 		DelegateTraits<System.Action<SuperScrollView.LoopListView2,SuperScrollView.LoopListViewItem2>>.Init(factory.System_Action_SuperScrollView_LoopListView2_SuperScrollView_LoopListViewItem2);
 		DelegateTraits<System.Func<SuperScrollView.LoopListView2,int,SuperScrollView.LoopListViewItem2>>.Init(factory.System_Func_SuperScrollView_LoopListView2_int_SuperScrollView_LoopListViewItem2);
 		DelegateTraits<System.Action<SuperScrollView.LoopListViewItem2,object>>.Init(factory.System_Action_SuperScrollView_LoopListViewItem2_object);
+		DelegateTraits<TMPro.TMP_InputField.OnValidateInput>.Init(factory.TMPro_TMP_InputField_OnValidateInput);
 
 		TypeTraits<System.Action>.Init(factory.Check_System_Action);
 		TypeTraits<UnityEngine.Events.UnityAction>.Init(factory.Check_UnityEngine_Events_UnityAction);
@@ -175,6 +177,7 @@ public class DelegateFactory
 		TypeTraits<System.Action<SuperScrollView.LoopListView2,SuperScrollView.LoopListViewItem2>>.Init(factory.Check_System_Action_SuperScrollView_LoopListView2_SuperScrollView_LoopListViewItem2);
 		TypeTraits<System.Func<SuperScrollView.LoopListView2,int,SuperScrollView.LoopListViewItem2>>.Init(factory.Check_System_Func_SuperScrollView_LoopListView2_int_SuperScrollView_LoopListViewItem2);
 		TypeTraits<System.Action<SuperScrollView.LoopListViewItem2,object>>.Init(factory.Check_System_Action_SuperScrollView_LoopListViewItem2_object);
+		TypeTraits<TMPro.TMP_InputField.OnValidateInput>.Init(factory.Check_TMPro_TMP_InputField_OnValidateInput);
 
 		StackTraits<System.Action>.Push = factory.Push_System_Action;
 		StackTraits<UnityEngine.Events.UnityAction>.Push = factory.Push_UnityEngine_Events_UnityAction;
@@ -228,6 +231,7 @@ public class DelegateFactory
 		StackTraits<System.Action<SuperScrollView.LoopListView2,SuperScrollView.LoopListViewItem2>>.Push = factory.Push_System_Action_SuperScrollView_LoopListView2_SuperScrollView_LoopListViewItem2;
 		StackTraits<System.Func<SuperScrollView.LoopListView2,int,SuperScrollView.LoopListViewItem2>>.Push = factory.Push_System_Func_SuperScrollView_LoopListView2_int_SuperScrollView_LoopListViewItem2;
 		StackTraits<System.Action<SuperScrollView.LoopListViewItem2,object>>.Push = factory.Push_System_Action_SuperScrollView_LoopListViewItem2_object;
+		StackTraits<TMPro.TMP_InputField.OnValidateInput>.Push = factory.Push_TMPro_TMP_InputField_OnValidateInput;
 	}
     
     public static Delegate CreateDelegate(Type t, LuaFunction func = null)
@@ -3353,6 +3357,71 @@ public class DelegateFactory
 	}
 
 	void Push_System_Action_SuperScrollView_LoopListViewItem2_object(IntPtr L, System.Action<SuperScrollView.LoopListViewItem2,object> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class TMPro_TMP_InputField_OnValidateInput_Event : LuaDelegate
+	{
+		public TMPro_TMP_InputField_OnValidateInput_Event(LuaFunction func) : base(func) { }
+		public TMPro_TMP_InputField_OnValidateInput_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public char Call(string param0, int param1, char param2)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			char ret = (char)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+
+		public char CallWithSelf(string param0, int param1, char param2)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			char ret = (char)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public TMPro.TMP_InputField.OnValidateInput TMPro_TMP_InputField_OnValidateInput(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			TMPro.TMP_InputField.OnValidateInput fn = delegate(string param0, int param1, char param2) { return '\0'; };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			TMPro_TMP_InputField_OnValidateInput_Event target = new TMPro_TMP_InputField_OnValidateInput_Event(func);
+			TMPro.TMP_InputField.OnValidateInput d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			TMPro_TMP_InputField_OnValidateInput_Event target = new TMPro_TMP_InputField_OnValidateInput_Event(func, self);
+			TMPro.TMP_InputField.OnValidateInput d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_TMPro_TMP_InputField_OnValidateInput(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(TMPro.TMP_InputField.OnValidateInput), L, pos);
+	}
+
+	void Push_TMPro_TMP_InputField_OnValidateInput(IntPtr L, TMPro.TMP_InputField.OnValidateInput o)
 	{
 		ToLua.Push(L, o);
 	}

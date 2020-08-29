@@ -19,7 +19,7 @@ using SuperScrollView;
 using System.IO;
 using FirClient.View;
 using FirClient.Extensions;
-using LiteNetLib.Utils;
+using TMPro;
 
 public static class CustomSettings
 {
@@ -155,6 +155,7 @@ public static class CustomSettings
         _GT(typeof(CLuaComponent)),
         _GT(typeof(CPrefabVar)),
         _GT(typeof(VarData)),
+        _GT(typeof(TMP_InputField)),
     };
 
     public static List<Type> dynamicList = new List<Type>()

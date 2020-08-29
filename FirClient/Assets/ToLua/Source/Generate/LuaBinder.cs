@@ -197,6 +197,12 @@ public static class LuaBinder
 		SuperScrollView_LoopListView2Wrap.Register(L);
 		SuperScrollView_LoopListViewItem2Wrap.Register(L);
 		L.EndModule();
+		L.BeginModule("TMPro");
+		TMPro_TMP_InputFieldWrap.Register(L);
+		L.BeginModule("TMP_InputField");
+		L.RegFunction("OnValidateInput", TMPro_TMP_InputField_OnValidateInput);
+		L.EndModule();
+		L.EndModule();
 		L.EndModule();
 		L.BeginPreLoad();
 		L.AddPreLoad("UnityEngine.MeshRenderer", LuaOpen_UnityEngine_MeshRenderer, typeof(UnityEngine.MeshRenderer));
@@ -1599,6 +1605,33 @@ public static class LuaBinder
 			{
 				LuaTable self = ToLua.CheckLuaTable(L, 2);
 				Delegate arg1 = DelegateTraits<System.Action<SuperScrollView.LoopListViewItem2,object>>.Create(func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int TMPro_TMP_InputField_OnValidateInput(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateTraits<TMPro.TMP_InputField.OnValidateInput>.Create(func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateTraits<TMPro.TMP_InputField.OnValidateInput>.Create(func, self);
 				ToLua.Push(L, arg1);
 			}
 			return 1;

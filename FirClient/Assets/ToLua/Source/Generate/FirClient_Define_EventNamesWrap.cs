@@ -13,7 +13,7 @@ public class FirClient_Define_EventNamesWrap
 		L.RegVar("EvNpcSpawn", get_EvNpcSpawn, null);
 		L.RegVar("EvNpcSpawnOK", get_EvNpcSpawnOK, null);
 		L.RegVar("EvEnterScene", get_EvEnterScene, null);
-		L.RegVar("EvBeginSceneEvent", get_EvBeginSceneEvent, null);
+		L.RegVar("EvBeginPlay", get_EvBeginPlay, null);
 		L.RegVar("EvMoveCamera", get_EvMoveCamera, null);
 		L.RegVar("EvNpcSkillAttack", get_EvNpcSkillAttack, null);
 		L.RegVar("EvNpcSkillAttackOK", get_EvNpcSkillAttackOK, null);
@@ -113,7 +113,7 @@ public class FirClient_Define_EventNamesWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_EvBeginSceneEvent(IntPtr L)
+	static int get_EvBeginPlay(IntPtr L)
 	{
 		try
 		{
