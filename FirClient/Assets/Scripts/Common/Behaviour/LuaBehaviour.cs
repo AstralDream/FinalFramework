@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using FirClient.Utility;
+using TMPro;
 
 namespace FirClient.Behaviour
 {
@@ -105,6 +106,38 @@ namespace FirClient.Behaviour
                 luaEvents.Remove(toggle);
             }
             toggle.onValueChanged.RemoveAllListeners();
+        }
+
+        /// <summary>
+        /// 添加回车事件监听
+        /// </summary>
+        public void AddEndEdit(TMP_InputField input, LuaTable self, LuaFunction luaFunc)
+        {
+            if (input != null && luaFunc != null)
+            {
+                RemoveEndEdit(input);
+
+                luaEvents.Add(input, new LuaEventData(self, luaFunc));
+                input.onEndEdit.AddListener(delegate
+                {
+                    luaFunc.Call<LuaTable, TMP_InputField>(self, input);
+                });
+            }
+        }
+
+        public void RemoveEndEdit(TMP_InputField input)
+        {
+            if (input == null) return;
+            LuaEventData evdata = null;
+            if (luaEvents.TryGetValue(input, out evdata))
+            {
+                if (evdata != null)
+                {
+                    evdata.Dispose();
+                }
+                luaEvents.Remove(input);
+            }
+            input.onEndEdit.RemoveAllListeners();
         }
 
         /// <summary>
