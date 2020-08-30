@@ -11,6 +11,8 @@ public class FirClient_Utility_LuaHelperWrap
 		L.RegFunction("AddButtonClick", AddButtonClick);
 		L.RegFunction("RemoveButtonClick", RemoveButtonClick);
 		L.RegFunction("LoadLevel", LoadLevel);
+		L.RegFunction("CallAction", CallAction);
+		L.RegFunction("InitBeginPlay", InitBeginPlay);
 		L.EndStaticLibs();
 	}
 
@@ -68,13 +70,44 @@ public class FirClient_Utility_LuaHelperWrap
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 5);
+			ToLua.CheckArgsCount(L, 4);
 			FirClient.Data.LevelType arg0 = (FirClient.Data.LevelType)ToLua.CheckObject(L, 1, typeof(FirClient.Data.LevelType));
 			LuaTable arg1 = ToLua.CheckLuaTable(L, 2);
-			uint arg2 = (uint)LuaDLL.luaL_checknumber(L, 3);
+			LuaFunction arg2 = ToLua.CheckLuaFunction(L, 3);
 			LuaFunction arg3 = ToLua.CheckLuaFunction(L, 4);
-			LuaFunction arg4 = ToLua.CheckLuaFunction(L, 5);
-			FirClient.Utility.LuaHelper.LoadLevel(arg0, arg1, arg2, arg3, arg4);
+			FirClient.Utility.LuaHelper.LoadLevel(arg0, arg1, arg2, arg3);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int CallAction(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			System.Action arg0 = (System.Action)ToLua.CheckDelegate<System.Action>(L, 1);
+			FirClient.Utility.LuaHelper.CallAction(arg0);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int InitBeginPlay(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			uint arg0 = (uint)LuaDLL.luaL_checknumber(L, 1);
+			FirClient.Utility.LuaHelper.InitBeginPlay(arg0);
 			return 0;
 		}
 		catch (Exception e)

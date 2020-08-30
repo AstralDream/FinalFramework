@@ -20,8 +20,9 @@ function MainAdapter:OnEnterLevel(action)
 	mapMgr = MgrCenter:GetManager(ManagerNames.Map)
 	Main.ShowUI(UiNames.Main)
 	if action ~= nil then
-		action:DynamicInvoke()
+		execAction(action)
 	end
+	LuaHelper.InitBeginPlay(4000)	--初始化服务器数据-
 end
 
 --执行批次任务--
@@ -64,7 +65,7 @@ function MainAdapter:OnEnterLevelOK()
 		coroutine.wait(0.1)
 		Main.CloseUI(UiNames.Loader)
 		if enterOK ~= nil then
-			enterOK:DynamicInvoke()
+			execAction(enterOK)
 		end
 		enterOK = nil
 		enterMapId = nil
@@ -77,7 +78,7 @@ end
 --离开关卡--
 function MainAdapter:OnLeaveLevel(action)
 	if action ~= nil then
-		action:DynamicInvoke()
+		execAction(action)
 	end
 	mapMgr = nil
 end

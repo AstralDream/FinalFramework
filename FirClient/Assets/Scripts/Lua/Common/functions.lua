@@ -159,6 +159,10 @@ function table.removeKey(t, k)
     return v
 end
 
-function isnil(uobj)
+function _G.isnil(uobj)
     return uobj == nil or uobj:Equals(nil)
+end
+
+function _G.execAction(action)
+	LuaHelper.CallAction(action)
 end

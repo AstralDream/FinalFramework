@@ -23,7 +23,9 @@ namespace FirClient.Logic.Manager
             AddManager<EmbattlePosManager>();
             AddManager<LogicManager>(this);
 
+            eventMgr.Initialize();
             battleLogicMgr.Initialize();
+            battleHandlerMgr.Initialize();
             Messenger.AddListener<float>(EventNames.EvLogicUpdate, OnUpdate);
         }
 

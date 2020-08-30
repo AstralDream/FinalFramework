@@ -207,10 +207,10 @@ namespace FirClient.Data
     public enum EventsType : byte
     {
         None = 0,
-        SpawnHeroNpc = 1,       //出生英雄
-        SpawnTeamNpc = 2,       //出生敌人
-        Dungeon = 3,            //副本事件
-        Dialog = 4,             //对话事件
+        SpawnHero = 1,          //出生英雄
+        SpawnEnemy = 2,         //出生敌人
+        EnterDungeon = 3,       //副本事件
+        ShowDialog = 4,         //对话事件
         MoveCamera = 5,         //移动相机
         MoveNpc = 6,            //移动NPC
         LoadScene = 7,          //进入场景

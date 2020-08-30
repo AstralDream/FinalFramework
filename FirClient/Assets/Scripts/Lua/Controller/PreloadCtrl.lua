@@ -18,7 +18,7 @@ end
 
 function PreloadCtrl:ProcessAction(initOK)
 	if 0 == #mActions then
-		initOK:DynamicInvoke()
+		execAction(initOK)
 		return
 	end
 	local action = table.remove(mActions, 1)

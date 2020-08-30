@@ -1,12 +1,9 @@
-﻿using FirClient.Component.FSM;
-using FirClient.Data;
+﻿using FirClient.Data;
 using FirClient.Extensions;
 using FirClient.Logic.FSM;
-using FirClient.Logic.FSM.FreeBattleState;
-using FirClient.Logic.FSM.TurnBaseState;
+using FirClient.Logic.Handler;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace FirClient.Logic.Manager
@@ -15,12 +12,17 @@ namespace FirClient.Logic.Manager
     {
         private Action execOK;
         private Vector2 currPos;
-        private TeamData currTeam;
-        private Queue<TeamData> turnTeams = new Queue<TeamData>();
+        private Dictionary<BattleType, BaseBattleHandler> battleHandlers = new Dictionary<BattleType, BaseBattleHandler>();
+
+        public BaseBattleHandler CurrHandler
+        {
+            get { return battleHandlers[LogicConst.BattleType]; }
+        }
 
         public override void Initialize()
         {
-            base.Initialize();
+            battleHandlers.Add(BattleType.TurnBase, new TurnBaseBattleHandler());
+            battleHandlers.Add(BattleType.FreeBattle, new FreeBattleHandler());
         }
 
         public void Initialize(Vector2 pos)
@@ -111,101 +113,36 @@ namespace FirClient.Logic.Manager
         /// </summary>
         public void InitNpcTeams(List<string> teamDatas, Action execOK)
         {
-            foreach (string teamItem in teamDatas)
-            {
-                if (LogicConst.BattleType == BattleType.FreeBattle)
-                {
-                    var items = teamItem.ToList<uint>('-');
-                    var teamid = items[0];
-                    var turnNum = items[1];
-                    var maxNum = items[2];
-                    TeamData itemData = configMgr.GetTeamData(teamid);
-                    if (itemData != null)
-                    {
-                        for (int i = 0; i < turnNum; i++)
-                        {
-                            TeamData newItem = new TeamData();
-                            newItem.id = itemData.id;
-                            newItem.teamNpcs = new List<TeamNpcData>();
-                            for (int j = 0; j < maxNum; j++)
-                            {
-                                int index = LogicUtil.Random(0, itemData.teamNpcs.Count);
-                                var teamNpc = itemData.teamNpcs[index];
-                                newItem.teamNpcs.Add(teamNpc);
-                            }
-                            turnTeams.Enqueue(newItem);
-                        }
-                    }
-                }
-                else
-                {
-                    uint teamid = teamItem.ToUint();
-                    TeamData item = configMgr.GetTeamData(teamid);
-                    if (item != null)
-                    {
-                        turnTeams.Enqueue(item);
-                    }
-                }
-            }
+            CurrHandler?.InitNpcTeams(teamDatas);
             if (execOK != null) execOK();
         }
 
         /// <summary>
         /// 开始战斗
         /// </summary>
-        public async void StartFight(Action execOK)
+        public void StartFight(Action execOK)
         {
             this.execOK = execOK;
             MoveNextTurn();
             battleLogicMgr.BattleStart();
-
-            if (LogicConst.BattleType == BattleType.FreeBattle)
-            {
-                await DoStartFight<FSearchState>(NpcType.Hero);
-                await DoStartFight<FSearchState>(NpcType.Enemy);
-            }
-            else
-            {
-                await DoStartFight<TSearchState>(NpcType.Hero);
-                await DoStartFight<TSearchState>(NpcType.Enemy);
-
-                timerMgr.AddTimer(1, 0, (obj) =>
-                {
-                    battleFsm.GetGlobalVar<bool>("isTakeNewToken").value = true;
-                });
-            }
+            CurrHandler?.StartFight();
         }
 
-        async Task DoStartFight<T>(NpcType npcType) where T: FsmState
-        {
-            await new WaitForEndOfFrame();
-            var npcDatas = npcDataMgr.GetNpcDatas(npcType);
-            foreach (var npcData in npcDatas)
-            {
-                if (npcData != null)
-                {
-                    while (npcData.fsm == null || npcData.npcState != NpcState.Ready)
-                    {
-                        await new WaitForEndOfFrame();
-                    }
-                    npcData.fsm.ChangeState<T>();
-                }
-            }
-        }
+
 
         /// <summary>
         /// 下一波敌人
         /// </summary>
         public void MoveNextTurn()
         {
-            GLogger.Gray("MoveNextTurn--------->>>" + turnTeams.Count);
-            if (turnTeams.Count == 0)
+            var teamCount = CurrHandler?.GetTeamCount();
+            GLogger.Gray("MoveNextTurn--------->>>" + teamCount);
+            if (teamCount == 0)
             {
                 if (npcDataMgr.IsAllNpcStateOK(NpcType.Hero, NpcState.Attack))
                 {
                     timerMgr.AddTimer(0.5f, 0, (obj) =>
                     {
-                        GLogger.Cyan("MoveNextTurn.execOK-------------->>>>>");
                         if (execOK != null) execOK();
                     });
                 }
@@ -213,15 +150,7 @@ namespace FirClient.Logic.Manager
             else
             {
                 this.SpawnNpcTeam();
-                if (LogicConst.BattleType == BattleType.FreeBattle)
-                {
-                    DoStartFight<FSearchState>(NpcType.Enemy);
-                }
-                else
-                {
-                    DoStartFight<TSearchState>(NpcType.Enemy);
-                    battleFsm.GetGlobalVar<bool>("isTakeNewToken").value = true;
-                }
+                CurrHandler?.MoveNextTurn();
             }
         }
 
@@ -230,7 +159,7 @@ namespace FirClient.Logic.Manager
         /// </summary>
         private void SpawnNpcTeam()
         {
-            currTeam = turnTeams.Dequeue();
+            var currTeam = CurrHandler?.NextTeamData();
             if (currTeam != null)
             {
                 List<uint> randomPos = null;

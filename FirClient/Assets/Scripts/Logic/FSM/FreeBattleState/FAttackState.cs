@@ -88,7 +88,7 @@ namespace FirClient.Logic.FSM.FreeBattleState
             var enemyDatas = npcDataMgr.GetNpcDatas(NpcType.Enemy);
             if (enemyDatas.Count == 0)
             {
-                battleTurnMgr.MoveNextTurn();
+                battleHandlerMgr.MoveNextTurn();
             }
         }
 

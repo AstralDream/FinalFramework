@@ -4,7 +4,7 @@ function LoginAdapter:OnEnterLevel(execOK)
 	Main.ShowUI(UiNames.Login)
 	Main.CloseUI(UiNames.Loader)
 	if execOK ~= nil then
-		execOK:DynamicInvoke()
+		execAction(execOK)
 	end
 end
 
@@ -44,7 +44,7 @@ end
 
 function LoginAdapter:OnLeaveLevel(execOK)
 	if execOK ~= nil then
-		execOK:DynamicInvoke()
+		execAction(execOK)
 	end
 end
 

@@ -114,16 +114,16 @@ namespace FirClient.Logic
             }
         }
 
-        private static BattleHandlerManager _battleTurnMgr;
-        public static BattleHandlerManager battleTurnMgr
+        private static BattleHandlerManager _battleHandlerMgr;
+        public static BattleHandlerManager battleHandlerMgr
         {
             get
             {
-                if (_battleTurnMgr == null)
+                if (_battleHandlerMgr == null)
                 {
-                    _battleTurnMgr = GetManager<BattleHandlerManager>();
+                    _battleHandlerMgr = GetManager<BattleHandlerManager>();
                 }
-                return _battleTurnMgr;
+                return _battleHandlerMgr;
             }
         }
 

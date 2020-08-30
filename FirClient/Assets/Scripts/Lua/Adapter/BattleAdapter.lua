@@ -2,7 +2,7 @@ local BattleAdapter = class("BattleAdapter")
 
 function BattleAdapter:OnEnterLevel(execOK)
 	if execOK ~= nil then
-		execOK:DynamicInvoke()
+		execAction(execOK)
 	end
 end
 
@@ -39,7 +39,7 @@ function BattleAdapter:OnBattleDungeon(dungeonData, execOK)
 
 		coroutine.wait(0.1)
 		if execOK ~= nil then 
-			execOK:DynamicInvoke()
+			execAction(execOK)
 		end
 		print('BattleAdapter Coroutine end...')  
 	end)
@@ -72,7 +72,7 @@ end
 
 function BattleAdapter:OnLeaveLevel(execOK)
 	if execOK ~= nil then
-		execOK:DynamicInvoke()
+		execAction(execOK)
 	end
 end
 

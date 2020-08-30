@@ -46,7 +46,7 @@ namespace FirClient.Logic.FSM.TurnBaseState
             var enemyDatas = npcDataMgr.GetNpcDatas(NpcType.Enemy);
             if (enemyDatas.Count == 0)
             {
-                battleTurnMgr.MoveNextTurn();
+                battleHandlerMgr.MoveNextTurn();
                 return;
             }
             var heroDatas = npcDataMgr.GetNpcDatas(NpcType.Hero);

@@ -9,7 +9,7 @@ function LevelManager:LoadLevel(levelType)
 	local loaderCtrl = ctrlMgr:GetCtrl(UiNames.Loader)
 	if loaderCtrl ~= nil then
 		loaderCtrl:InitLoader(function ()
-			LuaHelper.LoadLevel(levelType, self, 4000, self.OnLeaveLevel, self.OnEnterLevel)
+			LuaHelper.LoadLevel(levelType, self, self.OnLeaveLevel, self.OnEnterLevel)
 		end)
 	end
 end
@@ -22,7 +22,7 @@ function LevelManager:OnLeaveLevel(levelType, action)
 		adapter:OnLeaveLevel(action)
 	else
 		if action ~= nil then
-			action:DynamicInvoke()
+			execAction(action)
 		end
 	end
 	logWarn("OnLeaveLevel--->>"..tostring(levelType))
@@ -36,7 +36,7 @@ function LevelManager:OnEnterLevel(levelType, action)
 		adapter:OnEnterLevel(action)
 	else
 		if action ~= nil then
-			action:DynamicInvoke()
+			execAction(action)
 		end
 	end
 	logWarn("OnEnterLevel--->>"..tostring(levelType))

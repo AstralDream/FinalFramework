@@ -62,16 +62,16 @@ namespace FirClient.Utility
         /// <summary>
         /// 载入关卡
         /// </summary>
-        public static void LoadLevel(LevelType levelType, LuaTable self, uint mapid, LuaFunction onLeave, LuaFunction onEnter)
+        public static void LoadLevel(LevelType levelType, LuaTable self, LuaFunction onLeave, LuaFunction onEnter)
         {
             newLevel = levelType;
-            Util.StartCoroutine(OnLoadLevel(LevelType.Loader, self, mapid, onLeave, onEnter));
+            Util.StartCoroutine(OnLoadLevel(LevelType.Loader, self, onLeave, onEnter));
         }
-        
+
         /// <summary>
         /// 当载入关卡
         /// </summary>
-        static IEnumerator OnLoadLevel(LevelType levelType, LuaTable self, uint mapid, LuaFunction onLeave, LuaFunction onEnter)
+        static IEnumerator OnLoadLevel(LevelType levelType, LuaTable self, LuaFunction onLeave, LuaFunction onEnter)
         {
             int levelid = (int)levelType;
             var op = SceneManager.LoadSceneAsync(levelid);
@@ -84,7 +84,7 @@ namespace FirClient.Utility
                 {
                     onLeave.Call<LuaTable, LevelType, Action>(self, levelType, (Action)delegate ()
                     {
-                        Util.StartCoroutine(OnLoadLevel(newLevel, self, mapid, onLeave, onEnter));
+                        Util.StartCoroutine(OnLoadLevel(newLevel, self, onLeave, onEnter));
                     });
                     onLeave.Dispose();
                     onLeave = null;
@@ -94,10 +94,8 @@ namespace FirClient.Utility
             {
                 if (onEnter != null)
                 {
-                    onEnter.Call<LuaTable, LevelType, Action>(self, levelType, (Action)delegate ()
-                    {
-                        Messenger.Broadcast<uint>(EventNames.EvBeginPlay, mapid);
-                    });
+                    var loadMsg = "OnLoadLevel " + levelType + " OK!!!";
+                    onEnter.Call<LuaTable, LevelType, Action>(self, levelType, () => GLogger.Yellow(loadMsg));
                     onEnter.Dispose();
                     onEnter = null;
 
@@ -105,6 +103,16 @@ namespace FirClient.Utility
                     self = null;
                 }
             }
+        }
+
+        public static void CallAction(Action action)
+        {
+            if (action != null) action();
+        }
+
+        public static void InitBeginPlay(uint mapid)
+        {
+            Messenger.Broadcast<uint>(EventNames.EvBeginPlay, mapid);
         }
     }
 }
