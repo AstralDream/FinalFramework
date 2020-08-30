@@ -1,34 +1,18 @@
 ﻿using FirClient.Data;
-using FirClient.Define;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace FirClient.Logic.Manager
 {
     public class NPCDataManager : LogicBehaviour
     {
         private uint npcIndex = 0;
-        private long currNpcid = 0;
         private Dictionary<long, NPCData> mNpcDatas = new Dictionary<long, NPCData>();
         private Dictionary<NpcType, List<NPCData>> cacheNpcDatas = new Dictionary<NpcType, List<NPCData>>();
 
         public Dictionary<long, NPCData> NpcDatas
         {
             get { return mNpcDatas; } 
-        }
-
-        public long Current
-        { 
-            get
-            {
-                return currNpcid;
-            }
-            set 
-            {
-                currNpcid = value;
-                SyncCurrNpcId(value);
-            }
         }
 
         public override void Initialize()
@@ -40,14 +24,6 @@ namespace FirClient.Logic.Manager
             return ++npcIndex;
         }
 
-        /// <summary>
-        /// 同步当前NPCID
-        /// </summary>
-        private void SyncCurrNpcId(long id)
-        {
-            Messenger.Broadcast<long>(EventNames.EvChooseNpc, id);
-        }
-
         public void AddNpcData(NPCData data)
         {
             if (data == null) return;
@@ -55,11 +31,6 @@ namespace FirClient.Logic.Manager
             {
                 mNpcDatas.Add(data.npcid, data);
             }
-        }
-
-        public NPCData GetCurrNpcData()
-        {
-            return GetNpcData(Current);
         }
 
         public NPCData GetNpcData(long npcid)

@@ -1,9 +1,9 @@
 ﻿using FirClient.Component.FSM;
 using FirClient.Data;
 using FirClient.Extensions;
-using FirClient.Logic.AI;
-using FirClient.Logic.AI.FreeBattleState;
-using FirClient.Logic.AI.TurnBaseState;
+using FirClient.Logic.FSM;
+using FirClient.Logic.FSM.FreeBattleState;
+using FirClient.Logic.FSM.TurnBaseState;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace FirClient.Logic.Manager
 {
-    public class BattleTurnManager : LogicBehaviour
+    public class BattleHandlerManager : LogicBehaviour
     {
         private Action execOK;
         private Vector2 currPos;
@@ -49,11 +49,6 @@ namespace FirClient.Logic.Manager
                 npcData.mpInc = 10u;
                 npcData.skillConsume = 0;
                 npcDataMgr.AddNpcData(npcData);
-
-                if (i == 0)
-                {
-                    npcDataMgr.Current = npcData.npcid;
-                }
             }
         }
 

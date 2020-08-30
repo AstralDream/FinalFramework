@@ -2,7 +2,7 @@
 using FirClient.Data;
 using UnityEngine;
 
-namespace FirClient.Logic.AI.TurnBaseState
+namespace FirClient.Logic.FSM.TurnBaseState
 {
     public class TAttackState : FsmState
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using FirClient.Extensions;
 using System;
 
-namespace FirClient.Logic.AI.FreeBattleState
+namespace FirClient.Logic.FSM.FreeBattleState
 {
     public class FSearchState : FsmState
     {

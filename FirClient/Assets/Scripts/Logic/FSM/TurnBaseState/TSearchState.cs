@@ -3,7 +3,7 @@ using FirClient.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FirClient.Logic.AI.TurnBaseState
+namespace FirClient.Logic.FSM.TurnBaseState
 {
     public class TSearchState : FsmState
     {

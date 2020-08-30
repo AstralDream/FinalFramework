@@ -1,15 +1,17 @@
 ﻿using FirClient.Component.FSM;
 
-namespace FirClient.Logic.AI.TurnBaseState
+namespace FirClient.Logic.FSM.FreeBattleState
 {
-    public class TIdleState : FsmState
+    public class FDispatchState : FsmState
     {
-        private NpcFSM npcFsm;
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
 
         public override void Enter()
         {
             base.Enter();
-            npcFsm = (NpcFSM)Machine;
         }
 
         public override void Execute()

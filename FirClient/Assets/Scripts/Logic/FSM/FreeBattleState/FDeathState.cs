@@ -1,7 +1,7 @@
 ﻿using FirClient.Component.FSM;
 using FirClient.Data;
 
-namespace FirClient.Logic.AI.FreeBattleState
+namespace FirClient.Logic.FSM.FreeBattleState
 {
     public class FDeathState : FsmState
     {

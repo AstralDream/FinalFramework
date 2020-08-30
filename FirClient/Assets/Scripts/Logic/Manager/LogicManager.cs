@@ -1,5 +1,5 @@
 ﻿using FirClient.Define;
-using FirClient.Logic.AI;
+using FirClient.Logic.FSM;
 using FirClient.Extensions;
 
 namespace FirClient.Logic.Manager
@@ -19,7 +19,7 @@ namespace FirClient.Logic.Manager
             AddManager<NPCDataManager>();
             AddManager<BattleLogicManager>();
             AddManager<EventMappingManager>();
-            AddManager<BattleTurnManager>();
+            AddManager<BattleHandlerManager>();
             AddManager<EmbattlePosManager>();
             AddManager<LogicManager>(this);
 

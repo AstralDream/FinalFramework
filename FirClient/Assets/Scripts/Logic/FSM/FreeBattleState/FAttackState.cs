@@ -3,7 +3,7 @@ using UnityEngine;
 using FirClient.Extensions;
 using FirClient.Data;
 
-namespace FirClient.Logic.AI.FreeBattleState
+namespace FirClient.Logic.FSM.FreeBattleState
 {
     public class FAttackState : FsmState
     {

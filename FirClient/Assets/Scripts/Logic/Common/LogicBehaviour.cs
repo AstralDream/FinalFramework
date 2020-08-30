@@ -1,5 +1,5 @@
 ﻿using FirClient.Component;
-using FirClient.Logic.AI;
+using FirClient.Logic.FSM;
 using FirClient.Logic.Manager;
 using System.Collections.Generic;
 
@@ -114,14 +114,14 @@ namespace FirClient.Logic
             }
         }
 
-        private static BattleTurnManager _battleTurnMgr;
-        public static BattleTurnManager battleTurnMgr
+        private static BattleHandlerManager _battleTurnMgr;
+        public static BattleHandlerManager battleTurnMgr
         {
             get
             {
                 if (_battleTurnMgr == null)
                 {
-                    _battleTurnMgr = GetManager<BattleTurnManager>();
+                    _battleTurnMgr = GetManager<BattleHandlerManager>();
                 }
                 return _battleTurnMgr;
             }
