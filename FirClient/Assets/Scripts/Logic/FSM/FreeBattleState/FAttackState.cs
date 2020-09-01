@@ -66,10 +66,7 @@ namespace FirClient.Logic.FSM.FreeBattleState
             {
                 if (defender.hp <= 0)
                 {
-                    defender.fsm.RemoveAllStates();
-                    defender.fsm = null;
-                    npcDataMgr.RemoveNpcData(defenderid);
-                    battleLogicMgr.NpcDeath(defenderid);
+                    defender.fsm.ChangeState<FDeathState>();
                 }
                 else
                 {

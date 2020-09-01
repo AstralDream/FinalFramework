@@ -66,14 +66,7 @@ namespace FirClient.Logic.FSM.TurnBaseState
             var defender = npcDataMgr.GetNpcData(defenderid);
             if (defender != null && defender.hp == 0)
             {
-                defender.fsm.RemoveAllStates();
-                defender.fsm = null;
-                npcDataMgr.RemoveNpcData(defenderid);
-
-                var npcType = defender.npcType;
-                var emType = npcType == NpcType.Hero ? EmbattleType.Left : EmbattleType.Right;
-                embattlePosMgr.PushbackItem(emType, defender.position);
-                battleLogicMgr.NpcDeath(defenderid);
+                defender.fsm.ChangeState<TDeathState>();
             }
             Machine.ChangeState<TSearchState>();
         }
